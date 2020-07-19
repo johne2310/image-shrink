@@ -1,0 +1,74 @@
+{
+  "name": "image-shrink",
+  "productName": "Image-Shrink",
+  "version": "1.0.0",
+  "description": "An electron learning project",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "nodemon --exec electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "dist-m": "electron-builder -m",
+    "dist-w": "electron-builder --win"
+  },
+  "author": "John Evans",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^9.1.0",
+    "electron-builder": "^22.7.0",
+    "electron-osx-sign": "^0.4.17",
+    "nodemon": "^2.0.4"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "editor.tabSize": 4
+  },
+  "dependencies": {
+    "electron-log": "^4.2.2",
+    "electron-util": "^0.14.2",
+    "imagemin": "^7.0.1",
+    "imagemin-mozjpeg": "^9.0.0",
+    "imagemin-pngquant": "^9.0.0",
+    "slash": "^3.0.0"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : ""
+  },
+  "build": {
+    "appId": "com.electron.image-shrink",
+    "copyright": "Copyrigth 2020 John Evans",
+    "icon": "assets/icons/mac/icon.icns",
+    "asar": "false",
+    "mac": {
+      "hardenedRuntime": "true",
+      "gatekeeperAssess": "false",
+      "provisioningProfile": "build/Mac_Provisioning_Profile.provisionprofile"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "icon": "assets/icons/win/icon.ico",
+      "publisherName": ["John Evans"],
+      "publish": ["github"]
+    },
+    "publish": [
+      {
+        "provider": "github"
+      }
+    ]
+  }
+}
