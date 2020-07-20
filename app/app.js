@@ -12,7 +12,6 @@ const img = document.getElementById('img');
 // set output path text
 let destination = path.join(os.homedir(), 'imageshrink');
 document.getElementById('output-path').innerText = destination;
-ipcRenderer.send('image:destination', destination);
 
 // form submission
 form.addEventListener('submit', e => {

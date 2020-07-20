@@ -1,74 +1,29 @@
 {
   "name": "image-shrink",
-  "productName": "Image-Shrink",
+  "productName": "ImageShrink",
   "version": "1.0.0",
-  "description": "An electron learning project",
+  "description": "App to optimize images",
+  "repository": "https://github.com/johne2310/image-shrink.git",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dev": "nodemon --exec electron .",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder",
-    "dist-m": "electron-builder -m",
-    "dist-w": "electron-builder --win"
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=false --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"ImageShrink\"",
+    "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=false --out=release-builds"
   },
-  "author": "John Evans",
-  "license": "ISC",
+  "author": "Brad Traversy",
+  "license": "MIT",
   "devDependencies": {
-    "electron": "^9.1.0",
-    "electron-builder": "^22.7.0",
-    "electron-osx-sign": "^0.4.17",
-    "nodemon": "^2.0.4"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "editor.tabSize": 4
+    "electron": "^9.0.0",
+    "electron-packager": "^15.0.0",
+    "nodemon": "^2.0.3"
   },
   "dependencies": {
-    "electron-log": "^4.2.2",
-    "electron-util": "^0.14.2",
+    "electron-log": "^4.1.2",
     "imagemin": "^7.0.1",
     "imagemin-mozjpeg": "^9.0.0",
     "imagemin-pngquant": "^9.0.0",
     "slash": "^3.0.0"
-  },
-  "repository": {
-    "type" : "git",
-    "url" : ""
-  },
-  "build": {
-    "appId": "com.electron.image-shrink",
-    "copyright": "Copyrigth 2020 John Evans",
-    "icon": "assets/icons/mac/icon.icns",
-    "asar": "false",
-    "mac": {
-      "hardenedRuntime": "true",
-      "gatekeeperAssess": "false",
-      "provisioningProfile": "build/Mac_Provisioning_Profile.provisionprofile"
-    },
-    "dmg": {
-      "contents": [
-        {
-          "x": 110,
-          "y": 150
-        },
-        {
-          "x": 240,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ]
-    },
-    "win": {
-      "icon": "assets/icons/win/icon.ico",
-      "publisherName": ["John Evans"],
-      "publish": ["github"]
-    },
-    "publish": [
-      {
-        "provider": "github"
-      }
-    ]
   }
 }

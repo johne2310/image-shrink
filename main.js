@@ -10,8 +10,8 @@ const path = require('path');
 const os = require('os');
 const menuTemplate = require('./menu');
 const imagemin = require('imagemin');
-const imageminJpeg = require('imagemin-mozjpeg');
-const imageminPng = require('imagemin-pngquant');
+const imageminMozjpeg = require('imagemin-mozjpeg');
+const imageminPngquant = require('imagemin-pngquant');
 const slash = require('slash');
 const log = require('electron-log');
 
@@ -35,16 +35,15 @@ function createWindow() {
     title: 'ImageShrink',
     height: 550,
     width: isDev ? 800 : 500,
-    icon: `${__dirname}/assets/icons/Icon_256x256.png`,
+    icon: `${ __dirname }/assets/icons/Icon_256x256.png`,
     resizable: isDev,
     webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true
+      nodeIntegration: true
     }
   });
 
   //if dev mode then open devtools
-  if (isDev) mainWindow.webContents.openDevTools();
+  if ( isDev ) mainWindow.webContents.openDevTools();
 
   // mainWindow.loadURL(`file://${__dirname}/app/index.html`)
   mainWindow.loadFile('./app/index.html');
@@ -63,7 +62,7 @@ function createAboutWindow() {
   aboutWindow = new BrowserWindow({
     title: 'About',
     width: 300,
-    height: 200,
+    height: 300,
     x: 200,
     y: 200,
     resizable: false,
@@ -73,8 +72,8 @@ function createAboutWindow() {
   aboutWindow.loadFile('./app/about.html');
   // Listen for close event on aboutWindow and prevent destroying
   aboutWindow.on('close', e => {
-    e.preventDefault();
-    aboutWindow.hide();
+    // e.preventDefault();
+    // aboutWindow.hide();
   });
 
   // set mainWindow to null when closed
@@ -92,7 +91,7 @@ app.on('ready', () => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
-  if (!isMac) {
+  if ( !isMac ) {
     app.quit();
   }
 });
@@ -100,7 +99,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (BrowserWindow.getAllWindows().length === 0) {
+  if ( BrowserWindow.getAllWindows().length === 0 ) {
     createWindow();
   }
 });
@@ -115,13 +114,6 @@ ipcMain.on('image:minimise', (e, options) => {
   options.destination = path.join(os.homedir(), 'imageshrink');
   log.info('imgDetails: ', options);
   imageShrink(options)
-    .then(() => {
-      // let renderer know shrink is complete
-      mainWindow.webContents.send('image:done');
-      log.info(
-        `imageShrink successful on file ${options.imgPath} at quality ${options.quality}`
-      );
-    })
     .catch(e => {
       log.warn('Shrink Error', e.message);
     });
@@ -129,20 +121,43 @@ ipcMain.on('image:minimise', (e, options) => {
 
 // image minimisation
 async function imageShrink({ imgPath, quality, destination }) {
-  log.info('Options:', imgPath, quality, destination);
 
-  const pngQuality = quality / 100;
-  const files = await imagemin([slash(imgPath)], {
-    destination: destination,
-    plugins: [
-      imageminJpeg({ quality }),
-      imageminPng({
-        quality: [pngQuality, pngQuality]
-      })
-    ]
-  });
-  shell.openPath(destination).catch(e => {
-    log.error('Shell error: ', e.message);
-  });
-  log.info('files: ', files);
+  try {
+    log.info('Options:', imgPath, quality, destination);
+
+    const pngQuality = quality / 100;
+
+    const files = await imagemin([slash(imgPath)], {
+      destination: destination,
+      plugins: [
+        imageminMozjpeg({ quality }),
+        imageminPngquant({
+          quality: [pngQuality, pngQuality]
+        })
+      ]
+    }).catch(e => {
+      log.error('imagemin error: ', e.message);
+    });
+
+    log.info('files: ', files);
+
+    //open file in window
+    shell.openPath(destination).catch(e => {
+      log.error('Shell error: ', e.message);
+    });
+
+    // let renderer know shrink is complete
+    mainWindow.webContents.send('image:done');
+
+    // log success message
+    log.info(
+      `imageShrink successful on file ${ options.imgPath } at quality ${ options.quality }`
+    );
+  }
+  catch (e) {
+    log.error('Imagemin error: ', e.message);
+  }
+
 }
+
+app.allowRendererProcessReuse = true;
