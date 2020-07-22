@@ -3,7 +3,6 @@
   "productName": "ImageShrink",
   "version": "1.0.0",
   "description": "App to optimize images",
-  "repository": "https://github.com/johne2310/image-shrink.git",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -22,7 +21,9 @@
   "dependencies": {
     "electron-log": "^4.1.2",
     "imagemin": "^7.0.1",
-    "imagemin-mozjpeg": "^9.0.0",
+    "imagemin-jpeg-recompress": "^7.0.0",
+    "imagemin-jpegoptim": "^7.0.0",
+    "imagemin-mozjpeg": "^8.0.0",
     "imagemin-pngquant": "^9.0.0",
     "slash": "^3.0.0"
   }

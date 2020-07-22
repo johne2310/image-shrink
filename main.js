@@ -1,16 +1,10 @@
-const {
-  app,
-  BrowserWindow,
-  nativeTheme,
-  Menu,
-  ipcMain,
-  shell
-} = require('electron');
+const { app, BrowserWindow, nativeTheme, Menu, ipcMain, shell } = require('electron');
 const path = require('path');
 const os = require('os');
 const menuTemplate = require('./menu');
 const imagemin = require('imagemin');
-const imageminMozjpeg = require('imagemin-mozjpeg');
+// const imageminMozjpeg = require('imagemin-mozjpeg');
+const imageminJpegRecompress = require('imagemin-jpeg-recompress');
 const imageminPngquant = require('imagemin-pngquant');
 const slash = require('slash');
 const log = require('electron-log');
@@ -121,41 +115,59 @@ ipcMain.on('image:minimise', (e, options) => {
 
 // image minimisation
 async function imageShrink({ imgPath, quality, destination }) {
+  let errCode = 0;
+  let newQuality
+
+  if (quality < 25) {
+    newQuality  = 'low'
+  } else if (quality >24 && quality <50 ) {
+    newQuality = 'medium'
+  } else if (quality >49 && quality <75) {
+    newQuality = 'high'
+  } else {
+    newQuality = 'veryhigh'
+  }
 
   try {
-    log.info('Options:', imgPath, quality, destination);
+    log.info('Options:', imgPath, quality, newQuality, destination);
 
     const pngQuality = quality / 100;
 
     const files = await imagemin([slash(imgPath)], {
       destination: destination,
       plugins: [
-        imageminMozjpeg({ quality }),
+        // imageminMozjpeg({ quality }),
+        imageminJpegRecompress( {quality: newQuality} ),
         imageminPngquant({
           quality: [pngQuality, pngQuality]
         })
       ]
     }).catch(e => {
-      log.error('imagemin error: ', e.message);
+      log.error('.catch error: ', e.message);
+      errCode = 1;
     });
 
-    log.info('files: ', files);
-
-    //open file in window
-    shell.openPath(destination).catch(e => {
-      log.error('Shell error: ', e.message);
-    });
-
-    // let renderer know shrink is complete
-    mainWindow.webContents.send('image:done');
-
+    // log.info('files: ', files);
     // log success message
     log.info(
-      `imageShrink successful on file ${ options.imgPath } at quality ${ options.quality }`
+      `imageShrink successful on file ${ imgPath } at quality ${ newQuality }`
     );
+    //open file in window
+    if ( errCode === 1 ) {
+      // let renderer know shrink had an error
+      mainWindow.webContents.send('image:error');
+    } else {
+      // if no error then open folder and communicate success
+      shell.openPath(destination).catch(e => {
+        log.error('Shell error: ', e.message);
+      });
+      // let renderer know shrink is complete
+      mainWindow.webContents.send('image:done', newQuality);
+    }
+
   }
   catch (e) {
-    log.error('Imagemin error: ', e.message);
+    log.error('try catch error: ', e.message);
   }
 
 }

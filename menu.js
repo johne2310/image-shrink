@@ -1,4 +1,3 @@
-const { app } = require('electron');
 const main = require('./main');
 
 // set environment
@@ -11,11 +10,14 @@ const menuTemplate = [
   // user spread operator to test if Mac then add appMenu
   ...(isMac
     ? [
-        {
-          role: 'appMenu'
-        }
-      ]
+      {
+        role: 'appMenu'
+      }
+    ]
     : []),
+  {
+    role: 'fileMenu'
+  },
   {
     label: 'Help',
     submenu: [
@@ -30,16 +32,16 @@ const menuTemplate = [
   },
   ...(isDev
     ? [
-        {
-          label: 'Developer',
-          submenu: [
-            { role: 'reload' },
-            { role: 'forcereload' },
-            { type: 'separator' },
-            { role: 'toggledevtools' }
-          ]
-        }
-      ]
+      {
+        label: 'Developer',
+        submenu: [
+          { role: 'reload' },
+          { role: 'forcereload' },
+          { type: 'separator' },
+          { role: 'toggledevtools' }
+        ]
+      }
+    ]
     : [])
 ];
 

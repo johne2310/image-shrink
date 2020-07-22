@@ -26,8 +26,18 @@ form.addEventListener('submit', e => {
 });
 
 //listen for done message and create materialize toast
-ipcRenderer.on('image:done', () => {
+ipcRenderer.on('image:done', (e, quality) => {
   M.toast({
-    html: `Image has been resized to ${slider.value}% quality`
+    html: `Image has been resized to ${ quality } quality`
   });
+});
+
+//listen for error message and create materialize toast
+ipcRenderer.on('image:error', () => {
+  M.toast({
+      html: `Image could not be resized due to an error with the file`,
+      classes: 'toast-error',
+      displayLength: 6000
+    }
+  );
 });

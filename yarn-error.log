@@ -1,68 +1,59 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.22.4/libexec/bin/yarn.js add electron-osx --dev
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add libpng-dev
 
 PATH: 
-  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Apple/usr/bin:/Users/johnevans/OneDrive_Personal/OneDrive/apps/electron/image-shrink/node_modules/.bin
+  C:\Users\johnevans\WebstormProjects\electron\image-shrink\node_modules\.bin;C:\Program Files (x86)\Parallels\Parallels Tools\Applications;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;C:\Users\johnevans\AppData\Local\Microsoft\WindowsApps;C:\Users\johnevans\AppData\Roaming\npm;C:\Program Files\JetBrains\WebStorm 2020.1.2\bin;;C:\Users\johnevans\AppData\Local\Yarn\bin
 
 Yarn version: 
   1.22.4
 
 Node version: 
-  12.16.3
+  12.18.0
 
 Platform: 
-  darwin x64
+  win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/electron-osx: Not found
-      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:66987:18)
-      at Request.self.callback (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:140748:22)
-      at Request.emit (events.js:310:20)
-      at Request.<anonymous> (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:141720:10)
-      at Request.emit (events.js:310:20)
-      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.22.4/libexec/lib/cli.js:141642:12)
-      at Object.onceWrapper (events.js:416:28)
-      at IncomingMessage.emit (events.js:322:22)
-      at endReadableNT (_stream_readable.js:1187:12)
+  Error: https://registry.yarnpkg.com/libpng-dev: Not found
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66096:18)
+      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140748:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141720:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141642:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (_stream_readable.js:1221:12)
       at processTicksAndRejections (internal/process/task_queues.js:84:21)
 
 npm manifest: 
   {
     "name": "image-shrink",
-    "productName": "Image-Shrink",
+    "productName": "ImageShrink",
     "version": "1.0.0",
-    "description": "An electron learning project",
+    "description": "App to optimize images",
+    "repository": "https://github.com/johne2310/image-shrink.git",
     "main": "main.js",
     "scripts": {
       "start": "electron .",
-      "dev": "nodemon --exec electron ."
+      "dev": "nodemon --exec electron .",
+      "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+      "package-win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=false --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"ImageShrink\"",
+      "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=false --out=release-builds"
     },
-    "author": "John Evans",
-    "license": "ISC",
+    "author": "Brad Traversy",
+    "license": "MIT",
     "devDependencies": {
-      "electron": "^9.1.0",
-      "electron-builder": "^22.7.0",
-      "nodemon": "^2.0.4"
-    },
-    "prettier": {
-      "singleQuote": true,
-      "editor.tabSize": 4
+      "electron": "^9.0.0",
+      "electron-packager": "^15.0.0",
+      "nodemon": "^2.0.3"
     },
     "dependencies": {
-      "electron-log": "^4.2.2",
+      "electron-log": "^4.1.2",
       "imagemin": "^7.0.1",
       "imagemin-mozjpeg": "^9.0.0",
       "imagemin-pngquant": "^9.0.0",
       "slash": "^3.0.0"
-    },
-    "build": {
-      "appId": "com.electron.${productName}",
-      "copyright": "Copyrigth 2020 ${ author }",
-      "output": "dist",
-      "category": "public.app-category.utilities",
-      "icon": "assets/icons/mac",
-      "hardenedRuntime": "true",
-      "gatekeeperAssess": "false"
     }
   }
 
@@ -345,7 +336,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
     integrity sha1-ibTRmasr7kneFk6gK4nORi1xt2c=
   
-  base64-js@^1.0.2:
+  base64-js@^1.0.2, base64-js@^1.2.3:
     version "1.3.1"
     resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.3.1.tgz#58ece8cb75dd07e71ed08c736abc5fac4dbf8df1"
     integrity sha512-mLQ4i2QO1ytvGWFWmcngKO//JXAQueZvwEKtjgQFM4jIK0kU+ytMfplL8j+n5mspOfjHwoAg+9yhb7BwAHm36g==
@@ -418,7 +409,7 @@ Lockfile:
     dependencies:
       bluebird "^3.5.5"
   
-  bluebird@^3.5.5:
+  bluebird@^3.5.0, bluebird@^3.5.5:
     version "3.7.2"
     resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
     integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
@@ -688,6 +679,11 @@ Lockfile:
     dependencies:
       graceful-readlink ">= 1.0.0"
   
+  compare-version@^0.1.2:
+    version "0.1.2"
+    resolved "https://registry.yarnpkg.com/compare-version/-/compare-version-0.1.2.tgz#0162ec2d9351f5ddd59a9202cba935366a725080"
+    integrity sha1-AWLsLZNR9d3VmpICy6k1NmpyUIA=
+  
   concat-map@0.0.1:
     version "0.0.1"
     resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
@@ -786,7 +782,7 @@ Lockfile:
     dependencies:
       array-find-index "^1.0.1"
   
-  debug@^2.2.0, debug@^2.6.9:
+  debug@^2.2.0, debug@^2.6.8, debug@^2.6.9:
     version "2.6.9"
     resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
     integrity sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
@@ -1013,6 +1009,18 @@ Lockfile:
     version "4.2.2"
     resolved "https://registry.yarnpkg.com/electron-log/-/electron-log-4.2.2.tgz#b358dc6d1e4772465609ee3d8ad9f594d9e742c8"
     integrity sha512-lBpLh1Q8qayrTxFIrTPcNjSHsosvUfOYyZ8glhiLcx7zCNPDGuj8+nXlEaaSS6LRiQQbLgLG+wKpuvztNzBIrA==
+  
+  electron-osx-sign@^0.4.17:
+    version "0.4.17"
+    resolved "https://registry.yarnpkg.com/electron-osx-sign/-/electron-osx-sign-0.4.17.tgz#2727ca0c79e1e4e5ccd3861fb3da9c3c913b006c"
+    integrity sha512-wUJPmZJQCs1zgdlQgeIpRcvrf7M5/COQaOV68Va1J/SgmWx5KL2otgg+fAae7luw6qz9R8Gvu/Qpe9tAOu/3xQ==
+    dependencies:
+      bluebird "^3.5.0"
+      compare-version "^0.1.2"
+      debug "^2.6.8"
+      isbinaryfile "^3.0.2"
+      minimist "^1.2.0"
+      plist "^3.0.1"
   
   electron-publish@22.7.0:
     version "22.7.0"
@@ -1818,6 +1826,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
     integrity sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=
   
+  isbinaryfile@^3.0.2:
+    version "3.0.3"
+    resolved "https://registry.yarnpkg.com/isbinaryfile/-/isbinaryfile-3.0.3.tgz#5d6def3edebf6e8ca8cae9c30183a804b5f8be80"
+    integrity sha512-8cJBL5tTd2OS0dM4jz07wQd5g0dCCqIhUxPIGtZfa5L6hWlvV5MHTITy/DBAsF+Oe2LS1X3krBUhNwaGUWpWxw==
+    dependencies:
+      buffer-alloc "^1.2.0"
+  
   isbinaryfile@^4.0.6:
     version "4.0.6"
     resolved "https://registry.yarnpkg.com/isbinaryfile/-/isbinaryfile-4.0.6.tgz#edcb62b224e2b4710830b67498c8e4e5a4d2610b"
@@ -2430,6 +2445,15 @@ Lockfile:
     version "2.0.4"
     resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
     integrity sha1-clVrgM+g1IqXToDnckjoDtT3+HA=
+  
+  plist@^3.0.1:
+    version "3.0.1"
+    resolved "https://registry.yarnpkg.com/plist/-/plist-3.0.1.tgz#a9b931d17c304e8912ef0ba3bdd6182baf2e1f8c"
+    integrity sha512-GpgvHHocGRyQm74b6FWEZZVRroHKE1I0/BTjAmySaohK+cUn+hZpbqXkc3KWgW3gQYkqcQej35FohcT0FRlkRQ==
+    dependencies:
+      base64-js "^1.2.3"
+      xmlbuilder "^9.0.7"
+      xmldom "0.1.x"
   
   pngquant-bin@^6.0.0:
     version "6.0.0"
@@ -3251,6 +3275,16 @@ Lockfile:
     version "4.0.0"
     resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-4.0.0.tgz#4bc8d9984403696225ef83a1573cbbcb4e79db13"
     integrity sha512-PSNhEJDejZYV7h50BohL09Er9VaIefr2LMAf3OEmpCkjOi34eYyQYAXUTjEQtZJTKcF0E2UKTh+osDLsgNim9Q==
+  
+  xmlbuilder@^9.0.7:
+    version "9.0.7"
+    resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.7.tgz#132ee63d2ec5565c557e20f4c22df9aca686b10d"
+    integrity sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0=
+  
+  xmldom@0.1.x:
+    version "0.1.31"
+    resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.1.31.tgz#b76c9a1bd9f0a9737e5a72dc37231cf38375e2ff"
+    integrity sha512-yS2uJflVQs6n+CyjHoaBmVSqIDevTAWrzMmjG1Gc7h1qQ7uVozNhEPJAwZXWyGQ/Gafo3fCwrcaokezLPupVyQ==
   
   xtend@^4.0.0:
     version "4.0.2"
